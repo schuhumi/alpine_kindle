@@ -27,3 +27,15 @@ mntroot rw
 cp /mnt/us/alpine.conf /etc/upstart/
 mntroot r
 ```
+### 4. Run it
+*********************
+#### !!WARNING!!
+WHILE ALPINE IS RUNNING / THE IMAGE IS MOUNTED, DO NOT CONNECT YOUR KINDLE TO THE COMPUTER WITHOUT USBNETWORK ENABLED! The image resides in /mnt/us, and that is your usb mass storage location. When Alpine and the computer write on the userstore partition (partition 4) at the same time, it will be destroyed, and you need to fix that partition to get your Kindle working again. It might even be possible to brick the Kindle!!! Kual has an option to show the USBNetwork status, so check that beforehand if you plan on doing SSH while Alpine runs.
+*********************
+For running Alpine you have two options:
+1. In Kterm, first run "sh alpine.sh" in the "/mnt/us" folder. That drops you into an Alpine shell, where you can do text based stuff, or run "sh startgui.sh" to start the desktop
+2. You can use upstart to save on ram, for that run "start alpine" from Kterm. It will bring you to the desktop immediately.
+
+You can do both options over SSH as well.
+
+### 5. Customize it
