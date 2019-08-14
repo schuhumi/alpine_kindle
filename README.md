@@ -48,7 +48,10 @@ For running Alpine you have two options:
 
 You can do both options over SSH as well.
 
-### 5. Customize it
+### 5. Recommended tweaks
+ - In Chromium set the flag for smoot scrolling ([chrome://flags/#smooth-scrolling](chrome://flags/#smooth-scrolling)) to "Disabled". That makes scrolling via the Up and Down keys at the bottom more akin to page flips on epaper, as it scrolls without animation
+
+### 6. Customize it
 Some inspiration:
  - Install µBlock Origin in Chromium (yes that works)
  - Install an user agent extension in Chromium to have mobile views of webpages per default
