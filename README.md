@@ -43,9 +43,18 @@ mntroot r
 WHILE ALPINE IS RUNNING / THE IMAGE IS MOUNTED, DO NOT CONNECT YOUR KINDLE TO THE COMPUTER WITHOUT USBNETWORK ENABLED! The image resides in /mnt/us, and that is your usb mass storage location. When Alpine and the computer write on the userstore partition (partition 4) at the same time, it will be destroyed, and you need to fix that partition to get your Kindle working again. It might even be possible to brick the Kindle!!! Kual has an option to show the USBNetwork status, so check that beforehand if you plan on doing SSH while Alpine runs.
 *********************
 For running Alpine you have two options:
-1. In Kterm, first run "sh alpine.sh" in the "/mnt/us" folder. That drops you into an Alpine shell, where you can do text based stuff, or run "sh startgui.sh" to start the desktop
-2. You can use upstart to save on ram, for that run "start alpine" from Kterm. It will bring you to the desktop immediately.
+1. **good for debugging** In Kterm, first run "sh alpine.sh" in the "/mnt/us" folder. That drops you into an Alpine shell, where you can do text based stuff, or run "sh startgui.sh" to start the desktop
+2. **recommended** You can use upstart to save on ram, for that run "start alpine" from Kterm. It will bring you to the desktop immediately.
 
 You can do both options over SSH as well.
 
 ### 5. Customize it
+Some inspiration:
+ - Install µBlock Origin in Chromium (yes that works)
+ - Install an user agent extension in Chromium to have mobile views of webpages per default
+ - Install Python or Octave to get an awesome calculator (You can also do plots in Octave, just set the [graphics toolkit to fltk](https://octave.org/doc/v4.4.0/Introduction-to-Plotting.html))
+ - There are also all kinds of simple games to try out (gnome-games might be a collection worthwile to check out)
+ 
+ ## Issues
+ - Most notably Onboard doesn't resize the desktop, so it may cover inputs at times (for example when the terminal is maximized and the prompt is at the bottom)
+ - Sometimes when logging out it doesn't terminate properly, althoug all processes should be killed. You can hold the on/off key for several seconds, the LED starts blinking orange, and when it's done blinking the kindle reboots
