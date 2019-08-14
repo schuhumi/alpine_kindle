@@ -3,6 +3,8 @@ Here you find a set of utilities to get [Alpine Linux](https://alpinelinux.org/)
 
 ![alt text](https://github.com/schuhumi/alpine_kindle/raw/master/images/Kindle_Alpine_Chromium_Screenshot_Small.png)
 
+[(More pictures)](https://imgur.com/gallery/uX1DENC)
+
 ## Overview
 Kindles run a Linux operating system with X11 and everything on board already. To make better use of that one can utilize a full blown Linux distro including a proper desktop environment through chroot. Your Kindle stays fully functional to buy & read books. There's a number of things you need to get started though:
 1. A rooted Kindle, you should have Kual, Kterm and USBNetwork working
