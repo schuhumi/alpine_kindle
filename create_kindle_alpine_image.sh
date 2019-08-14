@@ -23,14 +23,22 @@ source /etc/profile
 apk update
 apk upgrade
 cat /etc/alpine-release
-apk add xorg-server-xephyr xfce4 xfce4-terminal gnome-themes-extra onboard xwininfo sudo bash
+apk add xorg-server-xephyr xfce4 xfce4-terminal xfce4-battery-plugin gnome-themes-extra onboard xwininfo sudo bash nano git chromium
 adduser alpine -D
 echo -e \"alpine\nalpine\" | passwd alpine
 echo '%sudo ALL=(ALL) ALL' >> /etc/sudoers
 addgroup sudo
 addgroup alpine sudo
+su alpine -c \"cd ~
+git init
+git remote add origin https://github.com/schuhumi/alpine_kindle_dotfiles
+git pull origin master\"
+su alpine -c \"gsettings set org.onboard.window docking-enabled true
+gsettings set org.onboard.auto-show enabled true\"
+echo \"You're now dropped into an interactive shell in Alpine, feel free to explore and type exit to leave.\"
 sh"
 STARTGUI='#!/bin/sh
+chmod a+w /dev/shm # Otherwise the alpine user cannot use this (needed for chromium)
 SIZE=$(xwininfo -root -display :0 | egrep "geometry" | cut -d " "  -f4)
 env DISPLAY=:0 Xephyr :1 -title "L:D_N:application_ID:xephyr" -ac -br -screen $SIZE -cc 4 -reset -terminate & sleep 3 && su alpine -c "env DISPLAY=:1 xfce4-session"'
 
@@ -51,7 +59,7 @@ APKVER="$(cut -d':' -f2 <<<"$(grep -A 5 "P:apk-tools-static" /tmp/APKINDEX | gre
 rm /tmp/APKINDEX /tmp/APKINDEX.tar.gz /tmp/DESCRIPTION # Remove what we downloaded and extracted
 echo "Version of apk-tools-static is: $APKVER"
 echo "Downloading apk-tools-static"
-curl "$REPO/latest-stable/main/armhf/apk-tools-static-$APKVER.apk" --output "/tmp/apk-tools-static.apk"
+curl "$REPO/latest-stable/main/armv7/apk-tools-static-$APKVER.apk" --output "/tmp/apk-tools-static.apk"
 tar -xzf "/tmp/apk-tools-static.apk" -C /tmp # extract apk-tools-static to /tmp
 
 
@@ -93,7 +101,9 @@ cp /etc/resolv.conf "$MNT/etc/resolv.conf" # Copy resolv from host for internet 
 mkdir -p "$MNT/etc/apk"
 echo "$REPO/edge/main/
 $REPO/edge/community/
-$REPO/edge/testing/" > "$MNT/etc/apk/repositories"
+$REPO/edge/testing/
+#Here comes a hack because Chromium isn't in edge
+$REPO/latest-stable/community" > "$MNT/etc/apk/repositories"
 # Create the script to start the gui
 echo "$STARTGUI" > "$MNT/startgui.sh"
 chmod +x "$MNT/startgui.sh"
@@ -110,12 +120,24 @@ rm "$MNT/usr/bin/qemu-arm-static"
 
 
 # UNMOUNT IMAGE & CLEANUP
+# Sync to disc
+sync
+# Kill remaining processes
+kill $(lsof +f -t "$MNT")
 # We unmount in reverse order
 echo "Unmounting image"
 umount "$MNT/sys"
 umount "$MNT/proc"
-umount "$MNT/dev"
+umount -lf "$MNT/dev"
 umount "$MNT"
+while [[ $(mount | grep "$MNT") ]]
+do
+	echo "Alpine is still mounted, please wait.."
+	sleep 3
+	umount "$MNT"
+done
+echo "Alpine unmounted"
+
 # And remove the apk-tools-static which we extracted to /tmp
 echo "Cleaning up"
 rm /tmp/apk-tools-static.apk
