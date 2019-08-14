@@ -1,7 +1,7 @@
 # Alpine Linux on Kindle
 Here you find a set of utilities to get [Alpine Linux](https://alpinelinux.org/) running on Kindles. So far this has been tested on Paperwhite 3 only, but it should work on any Kindle (not Kindle Fire though) that has a touchscreen and enough Flash/RAM (At least enough space beside your books/documents to save a >=1.5GB file and at least 512MiB RAM).
 
-![alt text](https://github.com/schuhumi/alpine_kindle/raw/master/images/Kindle_Alpine_Chromium.jpg)
+![alt text](https://github.com/schuhumi/alpine_kindle/raw/master/images/Kindle_Alpine_Chromium_Screenshot_Small.png)
 
 ## Overview
 Kindles run a Linux operating system with X11 and everything on board already. To make better use of that one can utilize a full blown Linux distro including a proper desktop environment through chroot. Your Kindle stays fully functional to buy & read books. There's a number of things you need to get started though:
