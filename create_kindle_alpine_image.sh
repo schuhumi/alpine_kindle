@@ -23,7 +23,7 @@ source /etc/profile
 apk update
 apk upgrade
 cat /etc/alpine-release
-apk add xorg-server-xephyr xfce4 xfce4-terminal xfce4-battery-plugin gnome-themes-extra onboard xwininfo sudo bash nano git chromium
+apk add xorg-server-xephyr xfce4 xfce4-terminal xfce4-battery-plugin gnome-themes-extra onboard xwininfo xdotool sudo bash nano git chromium
 adduser alpine -D
 echo -e \"alpine\nalpine\" | passwd alpine
 echo '%sudo ALL=(ALL) ALL' >> /etc/sudoers
