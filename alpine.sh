@@ -6,7 +6,6 @@ mount -o bind /dev/pts /tmp/alpine/dev/pts
 mount -o bind /proc /tmp/alpine/proc
 mount -o bind /sys /tmp/alpine/sys
 cp /etc/hosts /tmp/alpine/etc/hosts
-cp /etc/resolv.conf /tmp/alpine/etc/resolv.conf
 chmod a+w /dev/shm
 
 chroot /tmp/alpine /bin/sh

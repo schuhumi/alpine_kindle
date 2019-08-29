@@ -19,6 +19,7 @@ MNT="/mnt/alpine"
 IMAGE="./alpine.ext3"
 IMAGESIZE=2048 #Megabytes
 ALPINESETUP="echo kindle > /etc/hostname
+echo \"nameserver 8.8.8.8\" > /etc/resolv.conf
 source /etc/profile
 apk update
 apk upgrade
