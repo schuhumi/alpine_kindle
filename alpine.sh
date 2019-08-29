@@ -10,11 +10,23 @@ chmod a+w /dev/shm
 
 chroot /tmp/alpine /bin/sh
 
+kill $(pgrep Xephyr)
 kill -9 $(lsof -t /var/tmp/alpine/)
 
 umount /tmp/alpine/sys
+sleep 1
 umount /tmp/alpine/proc
 umount /tmp/alpine/dev/pts
 umount /tmp/alpine/dev
-umount /tmp/alpine
+# Sync beforehand so umount doesn't fail due to the device being busy still
+sync
+umount /tmp/alpine || true
+# Sometimes it fails still and only works by trying again
+while [ "$(mount | grep /tmp/alpine)" ]
+do
+	echo "Alpine is still mounted, trying again shortly.."
+	sleep 3
+	umount /tmp/alpine || true
+done
+echo "Alpine unmounted"
 
