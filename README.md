@@ -61,3 +61,5 @@ For running Alpine you have two options:
 2. **recommended** You can use upstart to save on ram, for that run "start alpine" from Kterm. It will bring you to the desktop immediately.
 
 You can do both options over SSH as well.
+
+The default password of the user "alpine" is "alpine".
