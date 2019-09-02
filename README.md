@@ -1,22 +1,29 @@
 # Alpine Linux on Kindle
-Here you find a set of utilities to get [Alpine Linux](https://alpinelinux.org/) running on Kindles. So far this has been tested on Paperwhite 3 only, but it should work on any Kindle (not Kindle Fire though) that has a touchscreen and enough Flash/RAM (At least enough space beside your books/documents to save a >=1.5GB file and at least 512MiB RAM).
 
-![alt text](https://github.com/schuhumi/alpine_kindle/raw/master/images/Kindle_Alpine_Chromium_Screenshot_Small.png)
+**************
+## * Major new release! see here: [releases page](https://github.com/schuhumi/alpine_kindle/releases/) *
+**************
 
-[(More pictures)](https://imgur.com/gallery/uX1DENC)
+Here you find a set of utilities to get [Alpine Linux](https://alpinelinux.org/) running on Kindles. So far this has been tested on Paperwhite 3 only, but it should work on any Kindle (not Kindle Fire though) that has a touchscreen and enough Flash/RAM (At least enough space beside your books/documents to save a >=2GB file and at least 512MiB RAM).
+
+![alt text](https://github.com/schuhumi/alpine_kindle/raw/master/images/collage1.png)
+
+![alt text](https://github.com/schuhumi/alpine_kindle/raw/master/images/collage2.png)
+
+[(More pictures (not up to date though))](https://imgur.com/gallery/uX1DENC)
 
 ## Overview
 Kindles run a Linux operating system with X11 and everything on board already. To make better use of that one can utilize a full blown Linux distro including a proper desktop environment through chroot. Your Kindle stays fully functional to buy & read books. There's a number of things you need to get started though:
 1. A jailbroken Kindle, you should have Kual, Kterm and USBNetwork working
-2. An image file with Alpine Linux in it. You can either use the script provided here to quicky create a fresh and up-to-date one, or just download a snapshot from the [releases page](https://github.com/schuhumi/alpine_kindle/releases/).
-3. A two more scripts found in here to start Alpine on the kindle
+2. An image file with Alpine Linux in it. You can either use the script provided here to quicky create a fresh and up-to-date one, or just download a release from the [releases page](https://github.com/schuhumi/alpine_kindle/releases/).
+3. A two more scripts found to start Alpine on the kindle (in the release as well, or from repo if you create the image yourself)
 
 ## Step-by-Step
 ### 1. Jailbreak your Kindle
 How that exactly works depends on your model of Kindle as well as the firmware version. You can find more information in the [mobileread forums](https://www.mobileread.com/forums/forumdisplay.php?f=150) and [mobileread wiki](https://wiki.mobileread.com/wiki/Kindle_Touch_Hacking). You'll also need [KUAL](https://www.mobileread.com/forums/showthread.php?t=203326) as application launcher, [Kterm](https://www.fabiszewski.net/kindle-terminal/) to start Alpine on the go without a computer, and [USBNetworking](https://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#USB_Networking) for SSH access during installation.
 
 ### 2. Get an Alpine image
-Here Alpine is saved within a file. You can either download an image at the [releases page](https://github.com/schuhumi/alpine_kindle/releases/), or create your own fresh and possibly customized one with the help of a script. Creating your own doesn't take long either, and if you have a linux computer it's pretty easy. All you need to install is qemu-user-static to execute arm software, but that should be in the repositories of your distro in most cases. Then have a look at [the script](https://github.com/schuhumi/alpine_kindle/blob/master/create_kindle_alpine_image.sh) especially at the configuration part (top). Finally you can execute it, and after a very short while you should be dropped into a shell inside Alpine. You can have a look around and tweak whatever you want, and with "exit" the script unmounts your fresh image and terminates.
+Here Alpine is saved within a file. You can either download an image at the [releases page](https://github.com/schuhumi/alpine_kindle/releases/), or create your own fresh and possibly customized one with the help of a script. Creating your own doesn't take long either, and if you have a linux computer it's pretty easy. All you need to install is qemu-user-static to execute arm software, but that should be in the repositories of your distro in most cases. Then have a look at [the script](https://github.com/schuhumi/alpine_kindle/blob/master/create_kindle_alpine_image.sh) especially at the configuration part (top). Finally you can execute it, and after a very short while you should be dropped into a shell inside Alpine. You can have a look around and tweak whatever you want, and with "exit" the script unmounts your fresh image and terminates. After that you should end up with a "alpine.ext3" file. Run "./create_release.sh" to create a release ("alpine.zip") just as from the release downloads that has all the neccessary files for the kindle included.
 
 ### 3. Put it on your Kindle
 First make sure you have enough space on your Kindle (The default size for alpine.ext3 is 2.0GB), you can check through SSH or using Kterm like so:
@@ -25,14 +32,19 @@ First make sure you have enough space on your Kindle (The default size for alpin
 Filesystem                Size      Used Available Use% Mounted on
 fsp                       3.0G    530.8M      2.5G  17% /mnt/us
 ```
-If you delete files to make room "df -h" may not update accordingly, reboot your Kindle then (you can use the "reboot" command).
+If you delete files to make room "df -h" may not update accordingly (bug in release 0.1), reboot your Kindle then (you can use the "reboot" command).
 
-You need to copy the Alpine image (must be named "alpine.ext3"!), the alpine.sh script and alpine.conf upstart-script on to the kindle. You can copy them on there like you do with other documents (USB mass storage, just put them in to root folder), or via scp in the following fashion (You need to have USBNetwork enabled obviously):
+You need to copy the Alpine zip on to the kindle. You can copy it on there like you do with other documents (USB mass storage, just put them in to root folder), or via scp in the following fashion (You need to have USBNetwork enabled obviously):
 ```
-scp -C alpine.ext3 root@192.168.15.244:/mnt/us/
-scp alpine.sh root@192.168.15.244:/mnt/us/
-scp alpine.conf  root@192.168.15.244:/mnt/us/
+scp -C alpine.zip root@192.168.15.244:/mnt/us/
 ```
+After that you need to extract the zip in the kindle shell like so:
+```
+cd /mnt/us
+unzip alpine.zip
+```
+You should end up with alpine.{sh, ext3, conf}, also when Alpine is running it will log in here into "alpine.log". You can also delete alpine.zip now.
+
 To save on RAM the Kindle GUI can be stopped before Alpine gets started. That must be done through upstart though, because when you stop the Kindle GUI, so does Kterm and Alpine itself when you start it from there. "alpine.conf" is a script to allow for that, it must be copied to the appropriate place though (using SSH or Kterm), e.g. assuming you have put it into /mnt/us:
 ```
 mntroot rw
@@ -49,17 +61,3 @@ For running Alpine you have two options:
 2. **recommended** You can use upstart to save on ram, for that run "start alpine" from Kterm. It will bring you to the desktop immediately.
 
 You can do both options over SSH as well.
-
-### 5. Recommended tweaks
- - In Chromium set the flag for smoot scrolling ([chrome://flags/#smooth-scrolling](chrome://flags/#smooth-scrolling)) to "Disabled". That makes scrolling via the Up and Down keys at the bottom more akin to page flips on epaper, as it scrolls without animation
-
-### 6. Customize it
-Some inspiration:
- - Install µBlock Origin in Chromium (yes that works)
- - Install an user agent extension in Chromium to have mobile views of webpages per default
- - Install Python or Octave to get an awesome calculator (You can also do plots in Octave, just set the [graphics toolkit to fltk](https://octave.org/doc/v4.4.0/Introduction-to-Plotting.html))
- - There are also all kinds of simple games to try out (gnome-games might be a collection worthwile to check out)
- 
- ## Issues
- - Most notably Onboard doesn't resize the desktop, so it may cover inputs at times (for example when the terminal is maximized and the prompt is at the bottom)
- - Sometimes when logging out it doesn't terminate properly, althoug all processes should be killed. You can hold the on/off key for several seconds, the LED starts blinking orange, and when it's done blinking the kindle reboots
