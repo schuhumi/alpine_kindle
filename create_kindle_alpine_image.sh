@@ -43,11 +43,12 @@ git reset --hard origin/master
 dconf load /org/mate/ < ~/.config/org_mate.dconf.dump
 dconf load /org/onboard/ < ~/.config/org_onboard.dconf.dump\"
 
-echo \"# Default settings for chromium. This file is sourced by /bin/sh from
+echo '# Default settings for chromium. This file is sourced by /bin/sh from
 # the chromium launcher.
 
 # Options to pass to chromium.
-CHROMIUM_FLAGS='--force-device-scale-factor=2 --touch-devices=7 --pull-to-refresh=1 --disable-smooth-scrolling --enable-low-end-device-mode --disable-login-animations --disable-modal-animations --wm-window-animations-disabled --start-maximized --user-agent=Mozilla%2F5.0%20%28Linux%3B%20Android%207.0%3B%20SM-G930V%20Build%2FNRD90M%29%20AppleWebKit%2F537.36%20%28KHTML%2C%20like%20Gecko%29%20Chrome%2F59.0.3071.125%20Mobile%20Safari%2F537.36'\" > /etc/chromium/chromium.conf
+mouseid=\"\$(env DISPLAY=:1 xinput list --id-only \"Xephyr virtual mouse\")\"
+CHROMIUM_FLAGS='\''--force-device-scale-factor=2 --touch-devices='\''\$mouseid'\'' --pull-to-refresh=1 --disable-smooth-scrolling --enable-low-end-device-mode --disable-login-animations --disable-modal-animations --wm-window-animations-disabled --start-maximized --user-agent=Mozilla%2F5.0%20%28Linux%3B%20Android%207.0%3B%20SM-G930V%20Build%2FNRD90M%29%20AppleWebKit%2F537.36%20%28KHTML%2C%20like%20Gecko%29%20Chrome%2F59.0.3071.125%20Mobile%20Safari%2F537.36'\''' > /etc/chromium/chromium.conf
 echo \"You're now dropped into an interactive shell in Alpine, feel free to explore and type exit to leave.\"
 sh"
 STARTGUI='#!/bin/sh
