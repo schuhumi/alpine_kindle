@@ -1,9 +1,16 @@
 # Alpine Linux on Kindle
 Here you find a set of utilities to get [Alpine Linux](https://alpinelinux.org/) running on Kindles. So far this has been tested on Paperwhite 3 only, but it should work on any Kindle (not Kindle Fire though) that has a touchscreen and enough Flash/RAM (At least enough space beside your books/documents to save a >=2GB file and at least 512MiB RAM).
 
+YouTube Video:
+
+[![Youtube Video demo](https://img.youtube.com/vi/rcZiVo1z4Eg/0.jpg)](https://www.youtube.com/watch?v=rcZiVo1z4Eg)
+
+Screenshots:
 ![alt text](https://github.com/schuhumi/alpine_kindle/raw/master/images/collage1.png)
 
 ![alt text](https://github.com/schuhumi/alpine_kindle/raw/master/images/collage2.png)
+
+![alt text](https://github.com/schuhumi/alpine_kindle/raw/master/images/collage3.png)
 
 [(More pictures (not up to date though))](https://imgur.com/gallery/uX1DENC)
 
