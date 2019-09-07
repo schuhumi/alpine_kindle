@@ -1,9 +1,4 @@
 # Alpine Linux on Kindle
-
-**************
-## * Major new release! see here: [releases page](https://github.com/schuhumi/alpine_kindle/releases/) *
-**************
-
 Here you find a set of utilities to get [Alpine Linux](https://alpinelinux.org/) running on Kindles. So far this has been tested on Paperwhite 3 only, but it should work on any Kindle (not Kindle Fire though) that has a touchscreen and enough Flash/RAM (At least enough space beside your books/documents to save a >=2GB file and at least 512MiB RAM).
 
 ![alt text](https://github.com/schuhumi/alpine_kindle/raw/master/images/collage1.png)
@@ -13,12 +8,21 @@ Here you find a set of utilities to get [Alpine Linux](https://alpinelinux.org/)
 [(More pictures (not up to date though))](https://imgur.com/gallery/uX1DENC)
 
 ## Overview
-Kindles run a Linux operating system with X11 and everything on board already. To make better use of that one can utilize a full blown Linux distro including a proper desktop environment through chroot. Your Kindle stays fully functional to buy & read books. There's a number of things you need to get started though:
-1. A jailbroken Kindle, you should have Kual, Kterm and USBNetwork working
-2. An image file with Alpine Linux in it. You can either use the script provided here to quicky create a fresh and up-to-date one, or just download a release from the [releases page](https://github.com/schuhumi/alpine_kindle/releases/).
-3. A two more scripts found to start Alpine on the kindle (in the release as well, or from repo if you create the image yourself)
+Kindles run a Linux operating system with X11 and everything on board already. To make better use of that one can utilize a full blown Linux distro including a proper desktop environment through chroot. Your Kindle stays fully functional to buy & read books.
 
-## Step-by-Step
+## Get started easily
+ - Install KUAL Launcher from here: https://github.com/schuhumi/alpine_kindle_kual/releases
+ - Use the KUAL Launcher to deploy Alpine Linux on your Kindle
+ - Start Alpine from the Launcher
+
+*********************
+#### !!WARNING!!
+WHILE ALPINE IS RUNNING / THE IMAGE IS MOUNTED, DO NOT CONNECT YOUR KINDLE TO THE COMPUTER WITHOUT USBNETWORK ENABLED! The image resides in /mnt/us, and that is your usb mass storage location. When Alpine and the computer write on the userstore partition (partition 4) at the same time, it will be destroyed, and you need to fix that partition to get your Kindle working again. It might even be possible to brick the Kindle!!! Kual has an option to show the USBNetwork status, so check that beforehand if you plan on doing SSH while Alpine runs.
+*********************
+The default password of the user "alpine" is "alpine".
+
+
+## Manual install
 ### 1. Jailbreak your Kindle
 How that exactly works depends on your model of Kindle as well as the firmware version. You can find more information in the [mobileread forums](https://www.mobileread.com/forums/forumdisplay.php?f=150) and [mobileread wiki](https://wiki.mobileread.com/wiki/Kindle_Touch_Hacking). You'll also need [KUAL](https://www.mobileread.com/forums/showthread.php?t=203326) as application launcher, [Kterm](https://www.fabiszewski.net/kindle-terminal/) to start Alpine on the go without a computer, and [USBNetworking](https://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#USB_Networking) for SSH access during installation.
 
