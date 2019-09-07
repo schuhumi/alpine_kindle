@@ -18,10 +18,10 @@ REPO="http://dl-cdn.alpinelinux.org/alpine"
 MNT="/mnt/alpine"
 IMAGE="./alpine.ext3"
 IMAGESIZE=2048 #Megabytes
-ALPINESETUP="echo kindle > /etc/hostname
+ALPINESETUP="source /etc/profile
+echo kindle > /etc/hostname
 echo \"nameserver 8.8.8.8\" > /etc/resolv.conf
 mkdir /run/dbus
-source /etc/profile
 apk update
 apk upgrade
 cat /etc/alpine-release
@@ -49,6 +49,12 @@ echo '# Default settings for chromium. This file is sourced by /bin/sh from
 # Options to pass to chromium.
 mouseid=\"\$(env DISPLAY=:1 xinput list --id-only \"Xephyr virtual mouse\")\"
 CHROMIUM_FLAGS='\''--force-device-scale-factor=2 --touch-devices='\''\$mouseid'\'' --pull-to-refresh=1 --disable-smooth-scrolling --enable-low-end-device-mode --disable-login-animations --disable-modal-animations --wm-window-animations-disabled --start-maximized --user-agent=Mozilla%2F5.0%20%28Linux%3B%20Android%207.0%3B%20SM-G930V%20Build%2FNRD90M%29%20AppleWebKit%2F537.36%20%28KHTML%2C%20like%20Gecko%29%20Chrome%2F59.0.3071.125%20Mobile%20Safari%2F537.36'\''' > /etc/chromium/chromium.conf
+mkdir -p /usr/share/chromium/extensions
+# Install uBlock Origin
+echo '{
+	\"external_update_url\": \"https://clients2.google.com/service/update2/crx\"
+}' > /usr/share/chromium/extensions/cjpalhdlnbpafiamejdnhcphjbkeiagm.json
+
 echo \"You're now dropped into an interactive shell in Alpine, feel free to explore and type exit to leave.\"
 sh"
 STARTGUI='#!/bin/sh
