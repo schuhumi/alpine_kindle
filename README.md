@@ -74,3 +74,7 @@ For running Alpine you have two options:
 You can do both options over SSH as well.
 
 The default password of the user "alpine" is "alpine".
+
+### Related projects
+
+* [LinuxDeploy](https://github.com/zaoqi/kual-linuxdeploy-armhf): A universal tool to get GNU/Linux running on modern Kindles
